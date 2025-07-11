@@ -1,0 +1,124 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  color: white;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo styles */
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.logo .q {
+  color: #ff3c78;
+}
+
+/* Nav links for desktop */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  transition: all 0.3s ease;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff3c78;
+}
+
+/* Right side (search, buttons, hamburger) */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-icon {
+  color: white;
+  font-size: 1.1rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.login-btn,
+.logout-btn {
+  background-color: #ff3c78;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover,
+.logout-btn:hover {
+  background-color: #e03065;
+}
+
+/* Hamburger icon */
+.hamburger {
+  display: none;
+  cursor: pointer;
+}
+
+.menu-icon {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  /* Mobile nav links hidden by default */
+  .nav-links {
+    position: fixed;
+    top: 60px;
+    left: -100%;
+    flex-direction: column;
+    background-color: #111;
+    width: 100%;
+    padding: 20px 0;
+    gap: 15px;
+    align-items: center;
+    transition: left 0.3s ease;
+    height: calc(100vh - 60px);
+  }
+
+  /* Show mobile nav when open */
+  .nav-links.open {
+    left: 0;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbar-right {
+    gap: 5px;
+  }
+
+  .search-icon {
+    margin-right: 5px;
+  }
+
+  .login-btn,
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}
