@@ -1,41 +1,41 @@
-// backend/server.js
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-require('dotenv').config();
+// ✅ All Imports At Top
+import express from 'express';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import ticketRoutes from './routes/ticketRoutes.js';
+
+// ✅ Load .env
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
 
-// Middleware
+// ✅ Middlewares
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// MongoDB Connection
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => {
-    console.error('❌ MongoDB connection error:', err);
-    process.exit(1); // stop server if DB connection fails
-  });
-
-// Routes
-const ticketRoutes = require('./routes/TicketRoutes');
-const authRoutes = require('./routes/AuthRoutes');
-const commentRoutes = require('./routes/CommentRoutes');
-
-// Register routes
-app.use('/api/tickets', ticketRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/comments', commentRoutes);
-
-// Root route (optional)
+// ✅ Test route
 app.get('/', (req, res) => {
-  res.send('🎉 Customer Support Ticketing API is live');
+  res.send('🎉 Support Ticket System API is running!');
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+// ✅ Routes
+app.use('/api/tickets', ticketRoutes); // Route file handles CRUD
+
+// ✅ MongoDB Connection (MongoDB Atlas)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('✅ MongoDB connected');
+  // ✅ Start Server after DB connection
+  app.listen(process.env.PORT || 5000, () => {
+    console.log(`🚀 Server running on http://localhost:${process.env.PORT || 5000}`);
+  });
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err.message);
 });

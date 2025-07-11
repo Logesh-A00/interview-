@@ -1,32 +1,27 @@
-// routes/ticketRoutes.js
-const express = require('express');
-const router = express.Router();
-const Ticket = require('../models/Ticket');
+import express from 'express';
+import Ticket from '../models/Ticket.js';
 
-// Create new ticket
+const router = express.Router();
+
+// Create Ticket
 router.post('/', async (req, res) => {
   try {
-    const newTicket = new Ticket(req.body);
-    await newTicket.save();
-    res.status(201).json(newTicket);
+    const ticket = new Ticket(req.body);
+    await ticket.save();
+    res.status(201).json(ticket);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
-// Get all tickets (with filtering)
+// Get All Tickets
 router.get('/', async (req, res) => {
-  const { status, priority } = req.query;
-  const filter = {};
-  if (status) filter.status = status;
-  if (priority) filter.priority = priority;
-
   try {
-    const tickets = await Ticket.find(filter);
+    const tickets = await Ticket.find();
     res.json(tickets);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-module.exports = router;
+export default router;

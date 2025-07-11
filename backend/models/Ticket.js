@@ -1,20 +1,12 @@
-// models/Ticket.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ticketSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  type: String,
-  priority: String,
-  status: {
-    type: String,
-    default: 'open',
-    enum: ['open', 'in progress', 'closed']
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  title: { type: String, required: true },
+  description: { type: String },
+  type: { type: String, enum: ['issue', 'bug', 'feature'], default: 'issue' },
+  priority: { type: String, enum: ['low', 'normal', 'high'], default: 'low' },
+  status: { type: String, enum: ['open', 'in progress', 'closed'], default: 'open' },
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Ticket', ticketSchema);
+export default mongoose.model('Ticket', ticketSchema);
