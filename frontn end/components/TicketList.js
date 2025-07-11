@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import API from '../Api';
+import axios from 'axios';
 
 const TicketList = () => {
   const [tickets, setTickets] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchTickets = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/tickets");
+      setTickets(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchTickets = async () => {
-      const res = await API.get('/tickets');
-      setTickets(res.data);
-    };
     fetchTickets();
   }, []);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div>
@@ -18,7 +27,7 @@ const TicketList = () => {
       <ul>
         {tickets.map((ticket) => (
           <li key={ticket._id}>
-            <strong>{ticket.title}</strong> [{ticket.type}] - {ticket.priority} ({ticket.status})
+            <strong>{ticket.title}</strong> - {ticket.status}
           </li>
         ))}
       </ul>
